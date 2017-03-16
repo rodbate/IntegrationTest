@@ -9,7 +9,7 @@
 
     <groupId>com.github.rodbate</groupId>
     <artifactId>IntegrationTest</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>Integration Test</name>
 
