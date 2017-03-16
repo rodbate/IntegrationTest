@@ -7,7 +7,8 @@ branches:
     - master
 
 
-
+scripts:
+  - mvn clean install -P IT
 
 after_success:
   - mvn clean cobertura:cobertura coveralls:report
