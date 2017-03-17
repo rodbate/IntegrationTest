@@ -1,0 +1,11 @@
+
+spring:
+  application:
+    name: integraion-test
+  devtools:
+    restart:
+      additional-paths: .
+#      trigger-file: TriggerController.java
+
+server:
+  port: 8099
