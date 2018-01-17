@@ -69,6 +69,11 @@ public final class LuceneUtil {
             return this;
         }
 
+        public FieldTypeBuilder setStoreTermVectors(boolean storeTermVectors){
+            fieldType.setStoreTermVectors(storeTermVectors);
+            return this;
+        }
+
         public FieldType build() {
             fieldType.freeze();
             return fieldType;

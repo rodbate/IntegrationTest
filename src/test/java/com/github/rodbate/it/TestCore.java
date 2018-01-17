@@ -11,7 +11,7 @@ public class TestCore {
     public static void main(String[] args) {
 
 
-        JUnitCore core = new JUnitCore();
+        /*JUnitCore core = new JUnitCore();
 
 
         core.addListener(new RunListener(){
@@ -26,7 +26,9 @@ public class TestCore {
             }
         });
 
-        core.run(SuiteTest.class);
+        core.run(SuiteTest.class);*/
+
+        new JUnitCore().run(LuceneTest.class);
 
     }
 }

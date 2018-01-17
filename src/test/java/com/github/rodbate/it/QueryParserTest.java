@@ -1,5 +1,7 @@
 package com.github.rodbate.it;
 
+import com.github.rodbate.fts.FieldExt;
+import com.github.rodbate.fts.LuceneUtil;
 import com.github.rodbate.fts.analyser.SynonymAnalyzer;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -14,10 +16,7 @@ import org.apache.lucene.analysis.tokenattributes.*;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.Term;
+import org.apache.lucene.index.*;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
@@ -40,6 +39,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.Assert.*;
@@ -135,12 +135,17 @@ public class QueryParserTest {
 
         //add docs and commit
         Document doc = new Document();
-        doc.add(new TextField("content", "the fox jumps quick", Field.Store.YES));
-        doc.add(new TextField("content", "content append info", Field.Store.YES));
+        //doc.add(new TextField("content", "the fox jumps quick", Field.Store.YES));
+        //doc.add(new TextField("content", "content append info", Field.Store.YES));
+        doc.add(new FieldExt("content", "the fox jumps quick", LuceneUtil.newFieldTypeBuilder()
+                                                                                .setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS)
+                                                                                .setStored(true)
+                                                                                .setTokenized(true)
+                                                                                .setStoreTermVectors(true).build()));
         indexWriter.addDocument(doc);
         doc = new Document();
-        doc.add(new TextField("content", "the fox run quick", Field.Store.YES));
-        indexWriter.addDocument(doc);
+        //doc.add(new TextField("content", "the fox run quick", Field.Store.YES));
+        //indexWriter.addDocument(doc);
         indexWriter.commit();
 
         //search docs
@@ -149,6 +154,22 @@ public class QueryParserTest {
         TopDocs topDocs = searcher.search(query, 1);
         assertTrue(topDocs.scoreDocs.length == 1);
         assertEquals("the fox jumps quick", searcher.doc(topDocs.scoreDocs[0].doc).get("content"));
+
+        Fields termVectors = searcher.getIndexReader().getTermVectors(topDocs.scoreDocs[0].doc);
+        System.out.println("TermVectors : " + termVectors);
+        if (termVectors != null) {
+            for (String f : termVectors) {
+                Terms terms = termVectors.terms(f);
+                if (terms != null) {
+                    System.out.println(terms.getStats());
+                    TermsEnum iterator = terms.iterator();
+                    BytesRef term;
+                    while ((term = iterator.next()) != null) {
+                        System.out.println(term.utf8ToString());
+                    }
+                }
+            }
+        }
 
         query = new TermQuery(new Term("content", "fast"));
         topDocs = searcher.search(query, 1);
@@ -169,7 +190,6 @@ public class QueryParserTest {
 
 
 
-
         //close resources
         indexWriter.close();
         dir.close();
@@ -177,8 +197,30 @@ public class QueryParserTest {
 
 
 
+    @Test
+    public void testTypeVariable() {
+        Vector<String> x = new Vector<>();
+        Vector<Integer> y = new Vector<>();
+        boolean b = x.getClass() == y.getClass();
+        System.out.println("x=" + x.getClass() + ",y=" + y.getClass());
+    }
 
 
+    static class Outer {
+        int i = 100;
+        static void classMethod() {
+            final int l = 200;
+            class LocalInStaticContext {
+                //int k = i; // Compile-time error
+                int m = l; // OK
+            }
+        }
+        void foo() {
+            class Local { // A local class
+                int j = i;
+            }
+        }
+    }
 
 
 
@@ -193,6 +235,8 @@ public class QueryParserTest {
         }
         System.out.println("CNT : " + cnt);
     }
+
+
 
 
 
@@ -354,6 +398,8 @@ public class QueryParserTest {
         //1 4 5 9 10 14 18 30
         int arr[] = {1, 4, 5, 9, 10, 14, 18, 30};
         System.out.println(bs(arr, 0));
+
+
     }
 
 

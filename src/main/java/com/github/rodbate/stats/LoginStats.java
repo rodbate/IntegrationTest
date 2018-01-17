@@ -295,7 +295,11 @@ public class LoginStats {
     }
 
 
-
+    public static void main(String[] args) {
+        int a[] = {11,2,1,56,3,5,4,10};
+        heapSort(a);
+        show(a);
+    }
 
 
 
@@ -317,13 +321,6 @@ public class LoginStats {
         }
     }
 
-    public static void map(Map<String, ?> map) {
-        System.out.println(map.size());
-    }
-
-    public static void main(String[] args) {
-        map(new HashMap<String, Integer>());
-    }
 
 
 

@@ -11,6 +11,7 @@ import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.util.BytesRef;
 import org.junit.Test;
+import org.junit.runner.JUnitCore;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -267,11 +268,14 @@ public class LuceneTest {
         assertEquals(-1, divide(-5, 4));
         assertEquals(1, divide(-5, -4));
 
-
+        assertTrue(isPowerOf2(2));
+        assertTrue(isPowerOf2(4));
+        assertTrue(isPowerOf2(256));
+        assertFalse(isPowerOf2(14));
     }
 
     private boolean isPowerOf2(int d){
-        return false;
+        return (d != 0) && (d & (d - 1)) == 0;
     }
 
     private int add(int a, int b) {
@@ -315,4 +319,6 @@ public class LuceneTest {
     private int mod(int a, int b) {
         return 0;
     }
+
+
 }

@@ -36,5 +36,6 @@ public class InvokeMethod {
         //Object rs = toS.invoke(11111);
         Object rs2 = to.bindTo(new InvokeMethod()).invoke(11111);
         System.out.println(rs2);
+        System.out.println(Long.MAX_VALUE);
     }
 }
