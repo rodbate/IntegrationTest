@@ -302,6 +302,11 @@
             <artifactId>lucene-analyzers-smartcn</artifactId>
             <version>7.1.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>6.0</version>
+        </dependency>
 
         <dependency>
             <groupId>sun.jdk</groupId>
@@ -312,6 +317,30 @@
             <systemPath>${java.home}/../lib/tools.jar</systemPath>
         </dependency>
 
+        <dependency>
+            <groupId>idea</groupId>
+            <artifactId>idea_rt</artifactId>
+            <version>1.0.1</version>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>D:/SOFTWARES/IntelliJ IDEA Community Edition 2017.1/lib/idea_rt.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>idea</groupId>
+            <artifactId>idea</artifactId>
+            <version>1.0.1</version>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>D:/SOFTWARES/IntelliJ IDEA Community Edition 2017.1/lib/idea.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>idea-plugins</groupId>
+            <artifactId>junit-rt</artifactId>
+            <version>1.0.1</version>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>D:/SOFTWARES/IntelliJ IDEA Community Edition 2017.1/plugins/junit/lib/junit-rt.jar</systemPath>
+        </dependency>
     </dependencies>
 
 
