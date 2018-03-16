@@ -53,6 +53,7 @@ public class ExecutorServiceTest {
 
     @Test
     public void testShutdown() {
+        service.execute(exampleTask);
         service.shutdown();
         System.out.println("State Shutdown: " + service.isShutdown());
         System.out.println("State Terminate: " + service.isTerminated());
@@ -62,7 +63,8 @@ public class ExecutorServiceTest {
             System.out.println("RejectedExecutionException " + ex.getMessage());
         }
         try {
-            t.join();
+            //t.join();
+            Thread.currentThread().join();
         } catch (InterruptedException e) {
             //
         }
